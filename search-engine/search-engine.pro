@@ -6,8 +6,12 @@ CONFIG -= qt
 SOURCES += main.cpp \
     tests.cpp \
     porter2_stemmer.cpp \
+    avltree.cpp \
+    hashtable.cpp
 
 HEADERS += catch.hpp \
     porter2_stemmer.h \
     util/hash.h \
     util/stringview.h \
+    avltree.h \
+    hashtable.h

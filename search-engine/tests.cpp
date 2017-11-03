@@ -1,4 +1,9 @@
+#include <iostream>
+
 #include "catch.hpp"
+#include "porter2_stemmer.h"
+#include "hashtable.h"
+#include "avltree.h"
 
 using namespace std;
 
