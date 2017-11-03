@@ -3,4 +3,11 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    tests.cpp \
+    porter2_stemmer.cpp \
+
+HEADERS += catch.hpp \
+    porter2_stemmer.h \
+    util/hash.h \
+    util/stringview.h \
