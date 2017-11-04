@@ -2,6 +2,8 @@
 #define AVLTREE_H
 
 #include <queue>
+#include <list>
+#include <string>
 
 #include "indexinterface.hpp"
 
@@ -44,6 +46,8 @@ private:
     //searches in tree rooted at arg
     //determines if arg is an element of tree rooted at arg
     //clears tree rooted at arg
+    //check for imbalance at node
+    //rebalance node
     //case 1 rotation
     //case 4 rotation
     //case 2 rotation
@@ -172,39 +176,90 @@ public:
 //INSERTING
 //=========
 
+/*
+ * NOTE TO SELF:
+ *
+ * MAKE SURE TO PASS ALL POINTERS BY REFERENCE
+ * OTHERWISE NONE OF THIS WORKS.
+ */
+
 
 //inserts arg
+    //create list of strings, indicating directions taken when traversing list
     //call private function with root pointer
 
 
-//inserts arg to tree rooted at arg
+//inserts arg to tree rooted at arg (with tree trace list and iterator as parms)
     //if node equal to value, append data to this element
+
     //if value greater than node
-        //if right node not null, call recursively with right pointer
+        //if right node not null, push "right" to list, increment iterator
+        //call recursively with right pointer
         //else if right node null, make new node, assign right to new
-        //FIGURE OUT INSERTION LOGIC
 
     //if value greater than node
-        //if left node not null, call recursively with left pointer
+        //if left node not null, push "left" to list, increment iterator
+        //call recursively with left pointer
         //else if left node null, make new node, assign left to new
-        //FIGURE OUT INSERTION LOGIC
 
+    //if imbalanced, call rebalance with pointer to current, current list element, next list element
+    //else, decrement iterator
 
 
 //========
 //ROTATING
 //========
 
+/*
+ * NOTE TO SELF:
+ *
+ * MAKE SURE TO PASS ALL POINTERS BY REFERENCE
+ * OTHERWISE NONE OF THIS WORKS.
+ */
+
+
+/*
+ * Returns true if chiled nodes have height difference of more than one
+ */
+//check for imbalance at node
+    //if no children, return false
+    //if one child, return true if its height greater than 1
+    //if two children, return absolute value of difference > 1
+
+
+//rebalance node
+    //if left and left, call case 1 with this node
+    //if left and right, call case 2 with this node
+    //if right and left, call case 3 with this node
+    //if right and right, call case 4 with this node
+
+
 //case 1 rotation
+    //get pointer to left child (LC)
+    //get pointer to LR grandchild
+    //make temp pointer to LR
+    //make LC point to root node on the right
+    //make root pointer point to LC
+    //make root's right node's left pointer go to temp
 
 
 //case 4 rotation
+    //get pointer to right child (RC)
+    //get pointer to RL grandchild
+    //make temp pointer to RL
+    //make RC point to root node on the left
+    //make root pointer point to RC
+    //make root's left node's right pointer go to temp
 
 
 //case 2 rotation
+    //case 4 rotation on root's left pointer
+    //case 1 rotation on root pointer
 
 
 //case 3 rotation
+    //case 1 rotation on root's right pointer
+    //case 4 rotation on root pointer
 
 
 #endif // AVLTREE_H
