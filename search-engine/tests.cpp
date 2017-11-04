@@ -2,8 +2,8 @@
 
 #include "catch.hpp"
 #include "porter2_stemmer.h"
-#include "hashtable.h"
-#include "avltree.h"
+#include "hashtable.hpp"
+#include "avltree.hpp"
 
 using namespace std;
 
