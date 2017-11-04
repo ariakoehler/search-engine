@@ -10,12 +10,12 @@ public:
     IndexInterface(const IndexInterface<T>&) {}
     IndexInterface<T>& operator =(const IndexInterface<T>&) {}
     virtual ~IndexInterface();
-    virtual contains(const T&) = 0;
-    virtual search(const T&) = 0;
-    virtual insert(const T&) = 0;
-    virtual isEmpty() = 0;
-    virtual makeEmpty() = 0;
-    virtual remove(const T&) =0;
+    virtual bool contains(const T&) const = 0;
+    virtual T& search(const T&) = 0;
+    virtual void insert(const T&) = 0;
+    virtual bool isEmpty() const = 0;
+    virtual void makeEmpty() = 0;
+    virtual void remove(const T&) =0;
 };
 
 #endif // INDEXINTERFACE_H
