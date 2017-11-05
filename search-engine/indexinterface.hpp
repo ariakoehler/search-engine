@@ -1,6 +1,8 @@
 #ifndef INDEXINTERFACE_H
 #define INDEXINTERFACE_H
 
+#include <iostream>
+
 template <class T>
 class IndexInterface
 {
@@ -15,7 +17,9 @@ public:
     virtual void insert(const T&) = 0;
     virtual bool isEmpty() const = 0;
     virtual void makeEmpty() = 0;
-    virtual void remove(const T&) =0;
 };
+
+template<class T>
+IndexInterface<T>::~IndexInterface() {}
 
 #endif // INDEXINTERFACE_H

@@ -1,6 +1,7 @@
 #ifndef AVLTREE_H
 #define AVLTREE_H
 
+#include <iostream>
 #include <queue>
 #include <list>
 #include <string>
@@ -28,7 +29,7 @@ private:
 
     public:
         AVLNode(const U& inputData, AVLNode<U> * leftPtr = nullptr,
-                AVLNode<U> * rightPtr = nullptr, int nodeHeight = 0)
+                AVLNode<U> * rightPtr = nullptr, int nodeHeight = 1)
                 : data(inputData), left(leftPtr), right(rightPtr),
                 height(nodeHeight) {}
 
@@ -42,11 +43,11 @@ private:
     //finds the maximum value in tree rooted at arg
     //finds the minimum value in tree rooted at arg
     //gets height of tree rooted at arg
-    //inserts to tree rooted at arg
+    void insert(const T &, AVLNode<T> *); //inserts to tree rooted at arg
     //searches in tree rooted at arg
     //determines if arg is an element of tree rooted at arg
     //clears tree rooted at arg
-    //check for imbalance at node
+    //balance of node
     //rebalance node
     //case 1 rotation
     //case 4 rotation
@@ -56,16 +57,17 @@ private:
 
 public:
     AVLTree();
-    //copy constructor
-    //overloaded assignment op
-    //destructor
-    //determines if arg is an element
-    //searches for and returns arg
-    //inserts arg
-    //determines if tree is empty
-    //clears the tree
+    AVLTree(const AVLTree<T>&); //copy constructor
+    AVLTree<T>& operator =(const AVLTree<T>&); //overloaded assignment op
+    ~AVLTree(); //destructor
+    bool contains(const T &) const; //determines if arg is an element
+    T& search(const T &); //searches for and returns arg
+    void insert(const T &); //inserts arg
+    bool isEmpty() const; //determines if tree is empty
+    void makeEmpty(); //clears the tree
     //finds the maximum value
     //finds the minimum value
+    //stream insertion operator
 };
 
 
@@ -75,29 +77,42 @@ public:
 //CONSTRUCTORS AND RULE OF THREE
 //==============================
 
+template<class T>
+AVLTree<T>::AVLTree() : root(nullptr) { }
+
 /*
- * perform breadth-first traversal of input tree, inserting each element to this tree
+ * Copy constructor performs breadth-first traversal of
+ * input tree, inserting each element to this tree
  */
-//copy constructor
+template<class T>
+AVLTree<T>::AVLTree(const AVLTree<T>& rhs) {
     //create a queue of node pointers
     //while queue not empty
         //pop to temp from queue
         //insert value popped to this tree
         //if left child not null, push to queue
         //if right child not null, push to queue
+}
 
 
 /*
- * perform breadth-first traversal of input tree, inserting each element to this tree
+ * Overloaded assignment op performs breadth-first traversal of
+ * input tree, inserting each element to this tree
  */
-//overloaded assignment op
+template<class T>
+AVLTree<T>& AVLTree<T>::operator =(const AVLTree<T>& rhs) {
     //check to see that input is a different object
     //performs copy constructor logic
     //returns reference to this
+}
 
 
-//destructor
+//destructor clears all obects from the tree
+template<class T>
+AVLTree<T>::~AVLTree() {
     //call clear function
+}
+
 
 
 //===================
@@ -123,12 +138,19 @@ public:
 
 
 //determines if tree is empty
+template<class T>
+bool AVLTree<T>::isEmpty() const {
     //returns true iff root is null
+    return root == nullptr;
+}
 
 
 //clears the tree
+template<class T>
+void AVLTree<T>::makeEmpty() {
     //calls private clear all function with root pointer
     //delete root
+}
 
 /*
  * Traverses tree, deleting each element as its recursive call is popped
@@ -138,27 +160,39 @@ public:
     //if right not null, call recursively with left, then delete right
 
 
+//overloaded stream insertion operator
+    //passes root pointer to print function
+
+
+//prints each element in preorder traversal
+    //stream insert node data (followed by height for debugging purposes)
+    //call print with left pointer
+    //call print with right pointer
+
 
 //=========
 //SEARCHING
 //=========
 
 //determines if arg is an element
+template<class T>
+bool AVLTree<T>::contains(const T & arg) const {
     //return value of private function, passing root pointer
+}
 
 
 //determines if arg is an element of tree rooted at arg
+    //if this is null, return false
     //if this value is target, return true
-    //else, if target value less than this
-        //if left not null, call with left
-        //if left is null, return false
-    //else, if target value greater than this
-        //if right not null, call with right
-        //if right is null, return false
+    //else, if target value less than this, call with left
+    //else, if target value greater than this, call with right
 
 
 //searches for and returns arg
+template<class T>
+T& AVLTree<T>::search(const T & arg) {
     //return value of private function, passing root pointer
+}
 
 
 //searches for and returns arg in tree rooted at arg
@@ -185,25 +219,36 @@ public:
 
 
 //inserts arg
+template<class T>
+void AVLTree<T>::insert(const T & arg) {
     //create list of strings, indicating directions taken when traversing list
+    std::list<std::string> treeTrace;
+
     //call private function with root pointer
+    insert(arg, root);
+}
 
 
 //inserts arg to tree rooted at arg (with tree trace list and iterator as parms)
+template<class T>
+void AVLTree<T>::insert(const T &, AVLNode<T> * current) {
     //if node equal to value, append data to this element
 
     //if value greater than node
         //if right node not null, push "right" to list, increment iterator
         //call recursively with right pointer
         //else if right node null, make new node, assign right to new
+        //reset node height
 
     //if value greater than node
         //if left node not null, push "left" to list, increment iterator
         //call recursively with left pointer
         //else if left node null, make new node, assign left to new
+        //reset node height
 
     //if imbalanced, call rebalance with pointer to current, current list element, next list element
     //else, decrement iterator
+}
 
 
 //========
@@ -223,8 +268,10 @@ public:
  */
 //check for imbalance at node
     //if no children, return false
-    //if one child, return true if its height greater than 1
-    //if two children, return absolute value of difference > 1
+
+
+//get height of node
+    //returns 0 if pointer is null, its height if not
 
 
 //rebalance node
