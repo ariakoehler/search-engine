@@ -21,38 +21,60 @@ TEST_CASE("AVL Tree") {
     AVLTree<std::string> test4;
     AVLTree<std::string> test5;
 
+    test0.insert(55);
+    test0.insert(40);
+    test0.insert(70);
+
+    test1.insert(8);
+    test1.insert(7);
+    test1.insert(12);
+    test1.insert(3);
+    test1.insert(20);
+
+    test3.insert(std::string("rdj"));
+    test3.insert(std::string("syro"));
+    test3.insert(std::string("ccai2"));
+    test3.insert(std::string("drukqs"));
+    test3.insert(std::string("selected"));
+
+    test4.insert(std::string("foo"));
+    test4.insert(std::string("bar"));
+    test4.insert(std::string("baz"));
+    test4.insert(std::string("quux"));
+    test4.insert(std::string("qux"));
+
+
 
     SECTION("isEmpty") {
-        REQUIRE(test0.isEmpty());
-        REQUIRE(test1.isEmpty());
+        REQUIRE_FALSE(test0.isEmpty());
+        REQUIRE_FALSE(test1.isEmpty());
         REQUIRE(test2.isEmpty());
-        REQUIRE(test3.isEmpty());
-        REQUIRE(test4.isEmpty());
+        REQUIRE_FALSE(test3.isEmpty());
+        REQUIRE_FALSE(test4.isEmpty());
         REQUIRE(test5.isEmpty());
     }
 
-    SECTION("Simple Insertions") {
 
-        test0.insert(55);
-        REQUIRE(test0.findMax() == 55);
-        REQUIRE(test0.findMin() == 55);
+    SECTION("Get maxes and mins") {
 
-        test0.insert(70);
-        REQUIRE(test0.findMax() == 70);
-        REQUIRE(test0.findMin() == 55);
-
-        test0.insert(40);
         REQUIRE(test0.findMax() == 70);
         REQUIRE(test0.findMin() == 40);
 
+        REQUIRE(test1.findMax() == 20);
+        REQUIRE(test1.findMin() == 3);
+
+        REQUIRE(test3.findMax() == std::string("syro"));
+        REQUIRE(test3.findMin() == std::string("ccai2"));
+
+        REQUIRE(test4.findMax() == std::string("qux"));
+        REQUIRE(test4.findMin() == std::string("bar"));
+
     }
 
 
-
-    SECTION("Getters and Setters") {
+    SECTION("Check for Membership") {
 
     }
-
 
 }
 
