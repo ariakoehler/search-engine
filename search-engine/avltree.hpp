@@ -56,7 +56,7 @@ private:
     void insert(const T &, AVLNode<T> *&); //inserts to tree rooted at arg
     //searches in tree rooted at arg
     //determines if arg is an element of tree rooted at arg
-    //clears tree rooted at arg
+    void clear(AVLNode<T>*&); //clears tree rooted at arg
     //get balance of node
     //rebalance node
     std::ostream& print(std::ostream&, AVLNode<T> *) const;//print tree rooted at arg
@@ -123,7 +123,8 @@ AVLTree<T>& AVLTree<T>::operator =(const AVLTree<T>& rhs) {
 //destructor clears all obects from the tree
 template<class T>
 AVLTree<T>::~AVLTree() {
-    //call clear function
+    //call clear function with root
+    clear(root);
 }
 
 
@@ -186,15 +187,22 @@ bool AVLTree<T>::isEmpty() const {
 template<class T>
 void AVLTree<T>::makeEmpty() {
     //calls private clear all function with root pointer
-    //delete root
+    clear(root);
 }
 
 /*
  * Traverses tree, deleting each element as its recursive call is popped
  */
 //clears tree rooted at arg
+template<class T>
+void AVLTree<T>::clear(AVLNode<T> *& current) {
     //if left not null, call recursively with left, then delete left
-    //if right not null, call recursively with left, then delete right
+    if(current != nullptr) {
+        clear(current->left);
+        clear(current->right);
+        delete current;
+    }
+}
 
 
 //overloaded stream insertion operator
