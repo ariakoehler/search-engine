@@ -105,12 +105,29 @@ AVLTree<T>::AVLTree() : root(nullptr) { }
  */
 template<class T>
 AVLTree<T>::AVLTree(const AVLTree<T>& rhs) {
-    //create a queue of node pointers
+    //create a queue of node pointers and push root
+    std::queue<AVLNode<T>*> transferQueue;
+    transferQueue.push(rhs.root);
+
+    AVLNode<T>* temp;
+
     //while queue not empty
+    while(!transferQueue.empty()) {
         //pop to temp from queue
+        temp = transferQueue.front();
+        transferQueue.pop();
+
         //insert value popped to this tree
-        //if left child not null, push to queue
+        insert(temp->data);
+
         //if right child not null, push to queue
+        if(temp->right != nullptr)
+            transferQueue.push(temp->right);
+
+        //if left child not null, push to queue
+        if(temp->left != nullptr)
+            transferQueue.push(temp->left);
+    }
 }
 
 
@@ -121,8 +138,34 @@ AVLTree<T>::AVLTree(const AVLTree<T>& rhs) {
 template<class T>
 AVLTree<T>& AVLTree<T>::operator =(const AVLTree<T>& rhs) {
     //check to see that input is a different object
-    //performs copy constructor logic
+    if(&rhs != this) {
+        //performs copy constructor logic
+        std::queue<AVLNode<T>*> transferQueue;
+        transferQueue.push(rhs.root);
+
+        AVLNode<T>* temp;
+
+        //while queue not empty
+        while(!transferQueue.empty()) {
+            //pop to temp from queue
+            temp = transferQueue.front();
+            transferQueue.pop();
+
+            //insert value popped to this tree
+            insert(temp->data);
+
+            //if right child not null, push to queue
+            if(temp->right != nullptr)
+                transferQueue.push(temp->right);
+
+            //if left child not null, push to queue
+            if(temp->left != nullptr)
+                transferQueue.push(temp->left);
+        }
+    }
+
     //returns reference to this
+    return *this;
 }
 
 

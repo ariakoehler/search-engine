@@ -161,22 +161,40 @@ TEST_CASE("AVL Tree") {
 
 
     SECTION("Complex Insertions") {
-        cout << test1 << endl;
-        test1.insert(1);
-        cout << test1 << endl;
-        test1.insert(40);
-        cout << test1 << endl;
 
-        cout << test3 << endl;
+        /*
+         * Print statements have been commented out and are principally for
+         * checking test compliance manually, as AVLTree provides no public
+         * interface for accessing members directly.
+         */
+
+//        cout << test1 << endl;
+        test1.insert(1);
+//        cout << test1 << endl;
+        test1.insert(40);
+//        cout << test1 << endl;
+
+//        cout << test3 << endl;
         test3.insert(std::string("sergefenix"));
-        cout << test3 << endl;
+//        cout << test3 << endl;
         test3.insert(std::string("donkeyrhubarb"));
-        cout << test3 << endl;
+//        cout << test3 << endl;
     }
 
 
     SECTION("Copy Constructor and Assignment Op") {
 
+        /*
+         * Print statements have been commented out and are principally for
+         * checking test compliance manually, as AVLTree provides no public
+         * interface for accessing members directly.
+         */
+
+        AVLTree<std::string> copy3(test3);
+//        cout << copy3 << endl;
+
+        AVLTree<std::string> copy4 = test4;
+//        cout << copy4 << endl;
     }
 }
 
