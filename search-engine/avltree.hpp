@@ -125,6 +125,10 @@ template<class T>
 AVLTree<T>::~AVLTree() {
     //call clear function with root
     clear(root);
+    if(root != nullptr) {
+        delete root;
+        root = nullptr;
+    }
 }
 
 
