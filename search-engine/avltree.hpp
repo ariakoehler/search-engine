@@ -4,6 +4,7 @@
 #include <iostream>
 #include <queue>
 #include <list>
+#include <utility>
 #include <string>
 
 #include "indexinterface.hpp"
@@ -54,7 +55,7 @@ private:
     T& findMin(AVLNode<T>*&); //finds the minimum value in tree rooted at arg
     //gets height of tree rooted at arg
     void insert(const T &, AVLNode<T> *&); //inserts to tree rooted at arg
-    //searches in tree rooted at arg
+    std::pair<T,bool> search(const T&, AVLNode<T>*&); //searches in tree rooted at arg
     bool contains(const T &, AVLNode<T>*) const; //determines if arg is an element of tree rooted at arg
     void clear(AVLNode<T>*&); //clears tree rooted at arg
     //get balance of node
@@ -72,7 +73,7 @@ public:
     AVLTree<T>& operator =(const AVLTree<T>&); //overloaded assignment op
     ~AVLTree(); //destructor
     bool contains(const T &) const; //determines if arg is an element
-    T& search(const T &); //searches for and returns arg
+    std::pair<T,bool> search(const T &); //searches for and returns arg
     void insert(const T &); //inserts arg
     bool isEmpty() const; //determines if tree is empty
     void makeEmpty(); //clears the tree
@@ -198,6 +199,7 @@ void AVLTree<T>::makeEmpty() {
     }
 }
 
+
 /*
  * Traverses tree, deleting each element as its recursive call is popped
  */
@@ -282,20 +284,30 @@ bool AVLTree<T>::contains(const T & arg, AVLNode<T> * current) const {
 
 //searches for and returns arg
 template<class T>
-T& AVLTree<T>::search(const T & arg) {
+std::pair<T, bool> AVLTree<T>::search(const T & arg) {
     //return value of private function, passing root pointer
+    return search(arg, root);
 }
 
 
 //searches for and returns arg in tree rooted at arg
-    //if value is target, return reference to value
-    //else, if target value less than this
-        //if left not null, call with left
-        //if left is null, return SOME FLAG VALUE
+template<class T>
+std::pair<T, bool> AVLTree<T>::search(const T & arg, AVLNode<T> *& current) {
+    if(current == nullptr)
+        return std::pair<T, bool>(arg, false);
 
-    //else, if target value greater than this
-        //if right not null, call with right
-        //if right is null, return SOME FLAG VALUE
+    //if value is target, return reference to value
+    if(current->data == arg)
+        return std::pair<T, bool>(current->data, true);
+
+    //if target value less than this, recursive call
+    else if(arg < current->data)
+        return search(arg, current->left);
+
+    //if target value greater than this
+    else
+        return search(arg, current->right);
+}
 
 
 //=========

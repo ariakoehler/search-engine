@@ -2,6 +2,7 @@
 #define INDEXINTERFACE_H
 
 #include <iostream>
+#include <utility>
 
 template <class T>
 class IndexInterface
@@ -13,7 +14,7 @@ public:
     IndexInterface<T>& operator =(const IndexInterface<T>&) {}
     virtual ~IndexInterface();
     virtual bool contains(const T&) const = 0;
-    virtual T& search(const T&) = 0;
+    virtual std::pair<T,bool> search(const T&) = 0;
     virtual void insert(const T&) = 0;
     virtual bool isEmpty() const = 0;
     virtual void makeEmpty() = 0;

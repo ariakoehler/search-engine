@@ -125,6 +125,30 @@ TEST_CASE("AVL Tree") {
 
     }
 
+
+    SECTION("Searching") {
+
+        REQUIRE(test0.search(40).first == 40);
+        REQUIRE(test0.search(40).second == true);
+        REQUIRE(test0.search(85).first == 85);
+        REQUIRE(test0.search(85).second == false);
+
+        REQUIRE(test1.search(3).first == 3);
+        REQUIRE(test1.search(3).second == true);
+        REQUIRE(test1.search(80).first == 80);
+        REQUIRE(test1.search(80).second == false);
+
+        REQUIRE(test2.search(70).first == 70);
+        REQUIRE(test2.search(70).second == false);
+
+        REQUIRE(test3.search(std::string("drukqs")).first == std::string("drukqs"));
+        REQUIRE(test3.search(std::string("drukqs")).second == true);
+        REQUIRE(test3.search(std::string("melodiesfrommars")).first == std::string("melodiesfrommars"));
+        REQUIRE(test3.search(std::string("melodiesfrommars")).second == false);
+
+        REQUIRE(test5.search(std::string("foobar")).first == std::string("foobar"));
+        REQUIRE(test5.search(std::string("foobar")).second == false);
+    }
 }
 
 
