@@ -39,8 +39,8 @@ TEST_CASE("AVL Tree") {
 
     test4.insert(std::string("foo"));
     test4.insert(std::string("bar"));
-    test4.insert(std::string("baz"));
     test4.insert(std::string("quux"));
+    test4.insert(std::string("baz"));
     test4.insert(std::string("qux"));
 
     /*
@@ -136,6 +136,7 @@ TEST_CASE("AVL Tree") {
 
     SECTION("Searching") {
 
+
         REQUIRE(test0.search(40).first == 40);
         REQUIRE(test0.search(40).second == true);
         REQUIRE(test0.search(85).first == 85);
@@ -156,6 +157,7 @@ TEST_CASE("AVL Tree") {
 
         REQUIRE(test5.search(std::string("foobar")).first == std::string("foobar"));
         REQUIRE(test5.search(std::string("foobar")).second == false);
+
     }
 
 
