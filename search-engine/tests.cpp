@@ -52,7 +52,6 @@ TEST_CASE("AVL Tree") {
     cout << test5 << endl;
     */
 
-
     SECTION("isEmpty") {
         REQUIRE_FALSE(test0.isEmpty());
         REQUIRE_FALSE(test1.isEmpty());
@@ -162,6 +161,9 @@ TEST_CASE("AVL Tree") {
 
 
     SECTION("Complex Insertions") {
+        cout << test1 << endl;
+        test1.insert(1);
+        cout << test1 << endl;
 
     }
 

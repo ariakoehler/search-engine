@@ -38,12 +38,18 @@ private:
             //set height to be the max height of both children + 1
             height = std::max(getHeight(left), getHeight(right)) + 1;
         }
+
         int getHeight(const AVLNode<T> * arg) const {
             //returns 0 if pointer is null, its height if not
             if(arg == nullptr)
                 return 0;
             else
                 return arg->height;
+        }
+
+        void updateHeight(AVLNode<T>* arg) {
+            if(arg != nullptr)
+                arg->height = std::max(getHeight(arg->left), getHeight(arg->right)) + 1;
         }
 
         friend class AVLTree;
@@ -394,22 +400,22 @@ void AVLTree<T>::rebalance(T arg, AVLNode<T> *& current) {
     //if balance less than -1
     if(bal < -1) {
         //if left of left of current is arg, case 1
-        if(current->left->left->data == arg)
+        if(arg < current->left->data)
             case1Rotation(current);
 
         //if right of left of current is arg, case 2
-        else if(current->left->right->data == arg)
+        else if(arg > current->left->data)
             case2Rotation(current);
     }
 
      //if balance greater than 1
     else if(bal > 1) {
         //if left of right of current is arg, case 3
-        if(current->right->left->data == arg)
+        if(arg < current->right->data)
             case3Rotation(current);
 
         //if right of right of current is arg, case 4
-        else if(current->right->right->data == arg)
+        else if(arg > current->right->data)
             case4Rotation(current);
     }
 }
@@ -419,11 +425,26 @@ void AVLTree<T>::rebalance(T arg, AVLNode<T> *& current) {
 template <class T>
 void AVLTree<T>::case1Rotation(AVLNode<T> *& topNode) {
     //get pointer to left child (LC)
+    AVLNode<T>* leftChild = topNode->left;
+
     //get pointer to LR grandchild
+    AVLNode<T>* leftRightSubtree = leftChild->right;
+
     //make temp pointer to LR
+    AVLNode<T>* temp = leftRightSubtree;
+
     //make LC point to root node on the right
+    leftChild->right = topNode;
+
     //make root pointer point to LC
+    topNode = leftChild;
+
     //make root's right node's left pointer go to temp
+    leftChild->right->left = temp;
+
+    //make sure heights are updated
+    topNode->updateHeight(leftChild->right);
+    topNode->updateHeight(leftChild->left);
 }
 
 
