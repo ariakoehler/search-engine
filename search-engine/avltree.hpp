@@ -188,6 +188,10 @@ template<class T>
 void AVLTree<T>::makeEmpty() {
     //calls private clear all function with root pointer
     clear(root);
+    if(root != nullptr){
+        delete root;
+        root = nullptr;
+    }
 }
 
 /*
@@ -198,9 +202,14 @@ template<class T>
 void AVLTree<T>::clear(AVLNode<T> *& current) {
     //if left not null, call recursively with left, then delete left
     if(current != nullptr) {
-        clear(current->left);
-        clear(current->right);
-        delete current;
+        if(current->left != nullptr){
+            clear(current->left);
+            delete current->left;
+        }
+        if(current->right != nullptr) {
+            clear(current->right);
+            delete current->right;
+        }
     }
 }
 

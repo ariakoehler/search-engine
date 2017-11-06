@@ -72,6 +72,27 @@ TEST_CASE("AVL Tree") {
     }
 
 
+    SECTION("Make Empty") {
+        test0.makeEmpty();
+        REQUIRE(test0.isEmpty());
+
+        test1.makeEmpty();
+        REQUIRE(test1.isEmpty());
+
+        test2.makeEmpty();
+        REQUIRE(test2.isEmpty());
+
+        test3.makeEmpty();
+        REQUIRE(test3.isEmpty());
+
+        test4.makeEmpty();
+        REQUIRE(test4.isEmpty());
+
+        test5.makeEmpty();
+        REQUIRE(test5.isEmpty());
+    }
+
+
     SECTION("Check for Membership") {
 
     }
