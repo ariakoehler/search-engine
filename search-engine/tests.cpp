@@ -164,7 +164,14 @@ TEST_CASE("AVL Tree") {
         cout << test1 << endl;
         test1.insert(1);
         cout << test1 << endl;
+        test1.insert(40);
+        cout << test1 << endl;
 
+        cout << test3 << endl;
+        test3.insert(std::string("sergefenix"));
+        cout << test3 << endl;
+        test3.insert(std::string("donkeyrhubarb"));
+        cout << test3 << endl;
     }
 
 

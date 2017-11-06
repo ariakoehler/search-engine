@@ -452,11 +452,26 @@ void AVLTree<T>::case1Rotation(AVLNode<T> *& topNode) {
 template <class T>
 void AVLTree<T>::case4Rotation(AVLNode<T> *& topNode) {
     //get pointer to right child (RC)
+    AVLNode<T>* rightChild = topNode->right;
+
     //get pointer to RL grandchild
+    AVLNode<T>* rightLeftSubtree = rightChild->left;
+
     //make temp pointer to RL
+    AVLNode<T>* temp = rightLeftSubtree;
+
     //make RC point to root node on the left
+    rightChild->left = topNode;
+
     //make root pointer point to RC
+    topNode = rightChild;
+
     //make root's left node's right pointer go to temp
+    rightChild->left->right = temp;
+
+    //make sure heights are updated
+    topNode->updateHeight(rightChild->right);
+    topNode->updateHeight(rightChild->left);
 }
 
 
@@ -464,7 +479,10 @@ void AVLTree<T>::case4Rotation(AVLNode<T> *& topNode) {
 template <class T>
 void AVLTree<T>::case2Rotation(AVLNode<T> *& topNode) {
     //case 4 rotation on root's left pointer
+    case4Rotation(topNode->left);
+
     //case 1 rotation on root pointer
+    case1Rotation(topNode);
 }
 
 
@@ -472,7 +490,10 @@ void AVLTree<T>::case2Rotation(AVLNode<T> *& topNode) {
 template <class T>
 void AVLTree<T>::case3Rotation(AVLNode<T> *& topNode) {
     //case 1 rotation on root's right pointer
+    case1Rotation(topNode->right);
+
     //case 4 rotation on root pointer
+    case4Rotation(topNode);
 }
 
 
