@@ -53,18 +53,17 @@ private:
 
     T& findMax(AVLNode<T>*&); //finds the maximum value in tree rooted at arg
     T& findMin(AVLNode<T>*&); //finds the minimum value in tree rooted at arg
-    //gets height of tree rooted at arg
     void insert(const T &, AVLNode<T> *&); //inserts to tree rooted at arg
     std::pair<T,bool> search(const T&, AVLNode<T>*&); //searches in tree rooted at arg
     bool contains(const T &, AVLNode<T>*) const; //determines if arg is an element of tree rooted at arg
     void clear(AVLNode<T>*&); //clears tree rooted at arg
-    //get balance of node
-    //rebalance node
+    int getBalance(AVLNode<T>*); //get balance of node
+    void rebalance(T, AVLNode<T>*&); //rebalance node
     std::ostream& print(std::ostream&, AVLNode<T> *) const;//print tree rooted at arg
-    //case 1 rotation
-    //case 4 rotation
-    //case 2 rotation
-    //case 3 rotation
+    void case1Rotation(AVLNode<T>*&); //case 1 rotation
+    void case4Rotation(AVLNode<T>*&); //case 4 rotation
+    void case2Rotation(AVLNode<T>*&); //case 2 rotation
+    void case3Rotation(AVLNode<T>*&); //case 3 rotation
 
 
 public:
@@ -79,9 +78,9 @@ public:
     void makeEmpty(); //clears the tree
     T& findMax(); //finds the maximum value
     T& findMin();//finds the minimum value
-    //stream insertion operator
+
     template <class U>
-    friend std::ostream& operator <<(std::ostream&, const AVLTree<U>&);
+    friend std::ostream& operator <<(std::ostream&, const AVLTree<U>&);     //stream insertion operator
 };
 
 
@@ -350,6 +349,7 @@ void AVLTree<T>::insert(const T & arg, AVLNode<T> *& current) {
         insert(arg, current->right);
 
         //rebalance current and set height
+        rebalance(arg, current);
         current->updateHeight();
     }
 
@@ -359,6 +359,7 @@ void AVLTree<T>::insert(const T & arg, AVLNode<T> *& current) {
         insert(arg, current->left);
 
         //rebalance current and set height
+        rebalance(arg, current);
         current->updateHeight();
     }
 }
@@ -375,41 +376,83 @@ void AVLTree<T>::insert(const T & arg, AVLNode<T> *& current) {
  * OTHERWISE NONE OF THIS WORKS.
  */
 
+//get balance of node
+template <class T>
+int AVLTree<T>::getBalance(AVLNode<T> * balancingNode) {
+    //returns height of right - height of right
+    return balancingNode->getHeight(balancingNode->right) -
+            balancingNode->getHeight(balancingNode->left);
+}
+
 
 //rebalance node
+template <class T>
+void AVLTree<T>::rebalance(T arg, AVLNode<T> *& current) {
     //get balance of node
-    //if left and left, call case 1 with this node
-    //if left and right, call case 2 with this node
-    //if right and left, call case 3 with this node
-    //if right and right, call case 4 with this node
+    int bal = getBalance(current);
+
+    //if balance less than -1
+    if(bal < -1) {
+        //if left of left of current is arg, case 1
+        if(current->left->left->data == arg)
+            case1Rotation(current);
+
+        //if right of left of current is arg, case 2
+        else if(current->left->right->data == arg)
+            case2Rotation(current);
+    }
+
+     //if balance greater than 1
+    else if(bal > 1) {
+        //if left of right of current is arg, case 3
+        if(current->right->left->data == arg)
+            case3Rotation(current);
+
+        //if right of right of current is arg, case 4
+        else if(current->right->right->data == arg)
+            case4Rotation(current);
+    }
+}
 
 
 //case 1 rotation
+template <class T>
+void AVLTree<T>::case1Rotation(AVLNode<T> *& topNode) {
     //get pointer to left child (LC)
     //get pointer to LR grandchild
     //make temp pointer to LR
     //make LC point to root node on the right
     //make root pointer point to LC
     //make root's right node's left pointer go to temp
+}
 
 
 //case 4 rotation
+template <class T>
+void AVLTree<T>::case4Rotation(AVLNode<T> *& topNode) {
     //get pointer to right child (RC)
     //get pointer to RL grandchild
     //make temp pointer to RL
     //make RC point to root node on the left
     //make root pointer point to RC
     //make root's left node's right pointer go to temp
+}
 
 
 //case 2 rotation
+template <class T>
+void AVLTree<T>::case2Rotation(AVLNode<T> *& topNode) {
     //case 4 rotation on root's left pointer
     //case 1 rotation on root pointer
+}
 
 
 //case 3 rotation
+template <class T>
+void AVLTree<T>::case3Rotation(AVLNode<T> *& topNode) {
     //case 1 rotation on root's right pointer
     //case 4 rotation on root pointer
+}
 
 
 #endif // AVLTREE_H

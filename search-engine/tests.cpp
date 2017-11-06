@@ -43,6 +43,14 @@ TEST_CASE("AVL Tree") {
     test4.insert(std::string("quux"));
     test4.insert(std::string("qux"));
 
+    /*
+    cout << test0 << endl;
+    cout << test1 << endl;
+    cout << test2 << endl;
+    cout << test3 << endl;
+    cout << test4 << endl;
+    cout << test5 << endl;
+    */
 
 
     SECTION("isEmpty") {
@@ -148,6 +156,16 @@ TEST_CASE("AVL Tree") {
 
         REQUIRE(test5.search(std::string("foobar")).first == std::string("foobar"));
         REQUIRE(test5.search(std::string("foobar")).second == false);
+    }
+
+
+    SECTION("Complex Insertions") {
+
+    }
+
+
+    SECTION("Copy Constructor and Assignment Op") {
+
     }
 }
 
