@@ -95,6 +95,34 @@ TEST_CASE("AVL Tree") {
 
     SECTION("Check for Membership") {
 
+        REQUIRE(test0.contains(55));
+        REQUIRE(test0.contains(40));
+        REQUIRE(test0.contains(70));
+        REQUIRE_FALSE(test0.contains(65));
+
+        REQUIRE(test1.contains(8));
+        REQUIRE(test1.contains(7));
+        REQUIRE(test1.contains(12));
+        REQUIRE(test1.contains(3));
+        REQUIRE(test1.contains(20));
+        REQUIRE_FALSE(test1.contains(9));
+
+        REQUIRE_FALSE(test2.contains(6));
+
+        REQUIRE(test3.contains(std::string("selected")));
+        REQUIRE(test3.contains(std::string("drukqs")));
+        REQUIRE(test3.contains(std::string("ccai2")));
+        REQUIRE(test3.contains(std::string("syro")));
+        REQUIRE(test3.contains(std::string("rdj")));
+        REQUIRE_FALSE(test3.contains(std::string("")));
+
+        REQUIRE(test4.contains(std::string("foo")));
+        REQUIRE(test4.contains(std::string("quux")));
+        REQUIRE(test4.contains(std::string("qux")));
+        REQUIRE(test4.contains(std::string("bar")));
+        REQUIRE(test4.contains(std::string("baz")));
+        REQUIRE_FALSE(test4.contains(std::string("foobar")));
+
     }
 
 }

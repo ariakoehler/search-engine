@@ -55,7 +55,7 @@ private:
     //gets height of tree rooted at arg
     void insert(const T &, AVLNode<T> *&); //inserts to tree rooted at arg
     //searches in tree rooted at arg
-    //determines if arg is an element of tree rooted at arg
+    bool contains(const T &, AVLNode<T>*) const; //determines if arg is an element of tree rooted at arg
     void clear(AVLNode<T>*&); //clears tree rooted at arg
     //get balance of node
     //rebalance node
@@ -255,14 +255,29 @@ std::ostream& AVLTree<T>::print(std::ostream & os, AVLNode<T> * current) const {
 template<class T>
 bool AVLTree<T>::contains(const T & arg) const {
     //return value of private function, passing root pointer
+    return contains(arg, root);
 }
 
 
 //determines if arg is an element of tree rooted at arg
+template<class T>
+bool AVLTree<T>::contains(const T & arg, AVLNode<T> * current) const {
     //if this is null, return false
+    if(current == nullptr)
+        return false;
+
     //if this value is target, return true
-    //else, if target value less than this, call with left
-    //else, if target value greater than this, call with right
+    else if(current->data == arg)
+        return true;
+
+    //if target value less than this, call with left
+    else if(arg < current->data)
+        return contains(arg, current->left);
+
+    //if target value greater than this, call with right
+    else if(arg > current->data)
+        return contains(arg, current->right);
+}
 
 
 //searches for and returns arg
@@ -349,14 +364,8 @@ void AVLTree<T>::insert(const T & arg, AVLNode<T> *& current) {
  */
 
 
-/*
- * Returns true if chiled nodes have height difference of more than one
- */
-//check for imbalance at node
-    //if no children, return false
-
-
 //rebalance node
+    //get balance of node
     //if left and left, call case 1 with this node
     //if left and right, call case 2 with this node
     //if right and left, call case 3 with this node
