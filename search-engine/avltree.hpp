@@ -36,6 +36,7 @@ private:
         void updateHeight() {
             //set height to be the max height of both children + 1
         }
+        friend class AVLTree;
     };
 
     AVLNode<T> * root;
@@ -43,12 +44,13 @@ private:
     //finds the maximum value in tree rooted at arg
     //finds the minimum value in tree rooted at arg
     //gets height of tree rooted at arg
-    void insert(const T &, AVLNode<T> *); //inserts to tree rooted at arg
+    void insert(const T &, AVLNode<T> *&); //inserts to tree rooted at arg
     //searches in tree rooted at arg
     //determines if arg is an element of tree rooted at arg
     //clears tree rooted at arg
-    //balance of node
+    //get balance of node
     //rebalance node
+    std::ostream& print(std::ostream&, AVLNode<T> *) const;//print tree rooted at arg
     //case 1 rotation
     //case 4 rotation
     //case 2 rotation
@@ -68,6 +70,8 @@ public:
     //finds the maximum value
     //finds the minimum value
     //stream insertion operator
+    template <class U>
+    friend std::ostream& operator <<(std::ostream&, const AVLTree<U>&);
 };
 
 
@@ -161,13 +165,32 @@ void AVLTree<T>::makeEmpty() {
 
 
 //overloaded stream insertion operator
+template<class T>
+std::ostream& operator <<(std::ostream& os, const AVLTree<T>& tree) {
     //passes root pointer to print function
+    tree.print(os, tree.root);
+    return os;
+}
 
 
 //prints each element in preorder traversal
-    //stream insert node data (followed by height for debugging purposes)
-    //call print with left pointer
-    //call print with right pointer
+template<class T>
+std::ostream& AVLTree<T>::print(std::ostream & os, AVLNode<T> * current) const {
+    //if not null
+    if(current != nullptr) {
+        //stream insert node data (followed by height for debugging purposes)
+        os << current->data << ' ' << current->height << std::endl;
+
+        //call print with left pointer
+        print(os, current->left);
+
+        //call print with right pointer
+        print(os, current->right);
+    }
+
+    //return ostream object
+    return os;
+}
 
 
 //=========
@@ -231,23 +254,28 @@ void AVLTree<T>::insert(const T & arg) {
 
 //inserts arg to tree rooted at arg (with tree trace list and iterator as parms)
 template<class T>
-void AVLTree<T>::insert(const T &, AVLNode<T> * current) {
+void AVLTree<T>::insert(const T & arg, AVLNode<T> *& current) {
+    //if current is null, assign current to pointer
+    if(current == nullptr)
+        current = new AVLNode<T>(arg);
+
     //if node equal to value, append data to this element
+    else if(current->data == arg)
+        current->data += arg;
 
     //if value greater than node
-        //if right node not null, push "right" to list, increment iterator
+    else if(arg > current->data) {
         //call recursively with right pointer
-        //else if right node null, make new node, assign right to new
-        //reset node height
+        insert(arg, current->right);
+        //rebalance current and set height
+    }
 
     //if value greater than node
-        //if left node not null, push "left" to list, increment iterator
+    else if(arg < current->data) {
         //call recursively with left pointer
-        //else if left node null, make new node, assign left to new
-        //reset node height
-
-    //if imbalanced, call rebalance with pointer to current, current list element, next list element
-    //else, decrement iterator
+        insert(arg, current->left);
+        //rebalance current and set height
+    }
 }
 
 
