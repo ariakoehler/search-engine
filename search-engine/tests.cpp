@@ -35,8 +35,13 @@ TEST_CASE("AVL Tree") {
 
         test0.insert(55);
         cout << test0 << endl;
+        test0.insert(70);
+        cout << test0 << endl;
+        test0.insert(40);
+        cout << test0 << endl;
 
     }
+
 
 
     SECTION("Getters and Setters") {

@@ -35,7 +35,16 @@ private:
 
         void updateHeight() {
             //set height to be the max height of both children + 1
+            height = std::max(getHeight(left), getHeight(right)) + 1;
         }
+        int getHeight(const AVLNode<T> * arg) const {
+            //returns 0 if pointer is null, its height if not
+            if(arg == nullptr)
+                return 0;
+            else
+                return arg->height;
+        }
+
         friend class AVLTree;
     };
 
@@ -267,14 +276,18 @@ void AVLTree<T>::insert(const T & arg, AVLNode<T> *& current) {
     else if(arg > current->data) {
         //call recursively with right pointer
         insert(arg, current->right);
+
         //rebalance current and set height
+        current->updateHeight();
     }
 
     //if value greater than node
     else if(arg < current->data) {
         //call recursively with left pointer
         insert(arg, current->left);
+
         //rebalance current and set height
+        current->updateHeight();
     }
 }
 
@@ -296,10 +309,6 @@ void AVLTree<T>::insert(const T & arg, AVLNode<T> *& current) {
  */
 //check for imbalance at node
     //if no children, return false
-
-
-//get height of node
-    //returns 0 if pointer is null, its height if not
 
 
 //rebalance node
