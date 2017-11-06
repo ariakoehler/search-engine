@@ -50,8 +50,8 @@ private:
 
     AVLNode<T> * root;
 
-    //finds the maximum value in tree rooted at arg
-    //finds the minimum value in tree rooted at arg
+    T& findMax(AVLNode<T>*&); //finds the maximum value in tree rooted at arg
+    T& findMin(AVLNode<T>*&); //finds the minimum value in tree rooted at arg
     //gets height of tree rooted at arg
     void insert(const T &, AVLNode<T> *&); //inserts to tree rooted at arg
     //searches in tree rooted at arg
@@ -76,8 +76,8 @@ public:
     void insert(const T &); //inserts arg
     bool isEmpty() const; //determines if tree is empty
     void makeEmpty(); //clears the tree
-    //finds the maximum value
-    //finds the minimum value
+    T& findMax(); //finds the maximum value
+    T& findMin();//finds the minimum value
     //stream insertion operator
     template <class U>
     friend std::ostream& operator <<(std::ostream&, const AVLTree<U>&);
@@ -133,21 +133,45 @@ AVLTree<T>::~AVLTree() {
 //===================
 
 //returns max value
+template<class T>
+T& AVLTree<T>::findMax() {
     //call private max function with root pointer
+    return findMax(root);
+}
 
 
 //returns max value of tree rooted at arg
+template<class T>
+T& AVLTree<T>::findMax(AVLNode<T> *& current) {
     //if right pointer is null, return this value
+    if(current->right == nullptr)
+        return current->data;
+
     //else recursive call with right pointer
+    else
+        return findMax(current->right);
+}
 
 
 //returns min value
+template<class T>
+T& AVLTree<T>::findMin() {
     //call private min function with root pointer
+    return(findMin(root));
+}
 
 
 //returns min value of tree rooted at arg
+template<class T>
+T& AVLTree<T>::findMin(AVLNode<T> *& current) {
     //if left pointer is null, return this value
+    if(current->left == nullptr)
+        return current->data;
+
     //else recursive call with left pointer
+    else
+        return findMin(current->left);
+}
 
 
 //determines if tree is empty

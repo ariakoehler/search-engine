@@ -34,11 +34,16 @@ TEST_CASE("AVL Tree") {
     SECTION("Simple Insertions") {
 
         test0.insert(55);
-        cout << test0 << endl;
+        REQUIRE(test0.findMax() == 55);
+        REQUIRE(test0.findMin() == 55);
+
         test0.insert(70);
-        cout << test0 << endl;
+        REQUIRE(test0.findMax() == 70);
+        REQUIRE(test0.findMin() == 55);
+
         test0.insert(40);
-        cout << test0 << endl;
+        REQUIRE(test0.findMax() == 70);
+        REQUIRE(test0.findMin() == 40);
 
     }
 
