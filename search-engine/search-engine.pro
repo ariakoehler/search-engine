@@ -5,7 +5,8 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     tests.cpp \
-    porter2_stemmer.cpp
+    porter2_stemmer.cpp \
+    documentparser.cpp
 
 HEADERS += catch.hpp \
     porter2_stemmer.h \
@@ -13,4 +14,5 @@ HEADERS += catch.hpp \
     util/stringview.h \
     avltree.hpp \
     hashtable.hpp \
-    indexinterface.hpp
+    indexinterface.hpp \
+    documentparser.h
