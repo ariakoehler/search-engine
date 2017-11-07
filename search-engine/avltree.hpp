@@ -451,7 +451,7 @@ void AVLTree<T>::rebalance(T arg, AVLNode<T> *& current) {
             case2Rotation(current);
     }
 
-     //if balance greater than 1
+    //if balance greater than 1
     else if(bal > 1) {
         //if left of right of current is arg, case 3
         if(arg < current->right->data)
@@ -470,11 +470,8 @@ void AVLTree<T>::case1Rotation(AVLNode<T> *& topNode) {
     //get pointer to left child (LC)
     AVLNode<T>* leftChild = topNode->left;
 
-    //get pointer to LR grandchild
-    AVLNode<T>* leftRightSubtree = leftChild->right;
-
     //make temp pointer to LR
-    AVLNode<T>* temp = leftRightSubtree;
+    AVLNode<T>* temp = topNode->left->right;
 
     //make LC point to root node on the right
     leftChild->right = topNode;
@@ -497,11 +494,8 @@ void AVLTree<T>::case4Rotation(AVLNode<T> *& topNode) {
     //get pointer to right child (RC)
     AVLNode<T>* rightChild = topNode->right;
 
-    //get pointer to RL grandchild
-    AVLNode<T>* rightLeftSubtree = rightChild->left;
-
     //make temp pointer to RL
-    AVLNode<T>* temp = rightLeftSubtree;
+    AVLNode<T>* temp = topNode->right->left;
 
     //make RC point to root node on the left
     rightChild->left = topNode;
