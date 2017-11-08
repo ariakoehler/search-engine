@@ -11,6 +11,12 @@ IndexedTerm::IndexedTerm(std::string termIndex) : term(termIndex) {}
 //GETTERS AND SETTERS
 //===================
 
+//gets value of search term
+std::string IndexedTerm::getTerm() {
+    return term;
+}
+
+
 //search for ID and return by reference
     //find ID value (std::find_if)
     //return pair with ID paired frequency and boolean
@@ -29,7 +35,9 @@ IndexedTerm::IndexedTerm(std::string termIndex) : term(termIndex) {}
 /**
  * Equality operator checks keys (terms) for equality
  */
-
+bool IndexedTerm::operator ==(const IndexedTerm& rhs) {
+    return term == rhs.term;
+}
 
 
 /**

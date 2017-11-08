@@ -31,9 +31,25 @@ TEST_CASE("Indexed Terms") {
 
     SECTION("Constructor") {
 
+        REQUIRE(test0.getTerm() == "alito");
+        REQUIRE(test1.getTerm() == "sotomayor");
+        REQUIRE(test2.getTerm() == "kagan");
+        REQUIRE(test3.getTerm() == "gorsuch");
+        REQUIRE(test4.getTerm() == "");
+
     }
 
     SECTION("Equality Operators") {
+
+        REQUIRE(test0 == IndexedTerm("alito"));
+        REQUIRE(test1 == IndexedTerm("sotomayor"));
+        REQUIRE(test2 == IndexedTerm("kagan"));
+        REQUIRE(test3 == IndexedTerm("gorsuch"));
+        REQUIRE(test4 == IndexedTerm(""));
+
+    }
+
+    SECTION("Search with value return") {
 
     }
 
