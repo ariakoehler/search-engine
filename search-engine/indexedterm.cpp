@@ -7,6 +7,12 @@
 IndexedTerm::IndexedTerm(std::string termIndex) : term(termIndex) {}
 
 
+IndexedTerm::IndexedTerm(std::string word, int questionID, int frequency) {
+    term = word;
+    idWithFrequency.push_back(std::pair<int, int>(questionID, frequency));
+}
+
+
 //===================
 //GETTERS AND SETTERS
 //===================
@@ -14,6 +20,11 @@ IndexedTerm::IndexedTerm(std::string termIndex) : term(termIndex) {}
 //gets value of search term
 std::string IndexedTerm::getTerm() {
     return term;
+}
+
+
+std::vector<std::pair<int, int>> IndexedTerm::getQuestionVector() {
+    return idWithFrequency;
 }
 
 

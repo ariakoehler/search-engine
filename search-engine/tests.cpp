@@ -24,8 +24,8 @@ TEST_CASE("Indexed Terms") {
 
     IndexedTerm test0(std::string("alito"));
     IndexedTerm test1(std::string("sotomayor"));
-    IndexedTerm test2(std::string("kagan"));
-    IndexedTerm test3(std::string("gorsuch"));
+    IndexedTerm test2(std::string("kagan"), 453157, 25);
+    IndexedTerm test3(std::string("gorsuch"), 8675309, 42);
     IndexedTerm test4;
 
 
@@ -37,7 +37,18 @@ TEST_CASE("Indexed Terms") {
         REQUIRE(test3.getTerm() == "gorsuch");
         REQUIRE(test4.getTerm() == "");
 
+        REQUIRE(test0.getQuestionVector().empty());
+        REQUIRE(test1.getQuestionVector().empty());
+        REQUIRE_FALSE(test2.getQuestionVector().empty());
+        REQUIRE_FALSE(test3.getQuestionVector().empty());
+        REQUIRE(test4.getQuestionVector().empty());
+
+        REQUIRE(test2.getQuestionVector()[0].first == 453157);
+        REQUIRE(test3.getQuestionVector()[0].first == 8675309);
+        REQUIRE(test2.getQuestionVector()[0].second == 25);
+        REQUIRE(test3.getQuestionVector()[0].second == 42);
     }
+
 
     SECTION("Equality Operators") {
 
@@ -46,14 +57,20 @@ TEST_CASE("Indexed Terms") {
         REQUIRE(test2 == IndexedTerm("kagan"));
         REQUIRE(test3 == IndexedTerm("gorsuch"));
         REQUIRE(test4 == IndexedTerm(""));
-
     }
 
-    SECTION("Search with value return") {
-
-    }
 
     SECTION("Addition Assignment") {
 
+
+
     }
+
+
+    SECTION("Search with value return") {
+
+
+
+    }
+
 }
