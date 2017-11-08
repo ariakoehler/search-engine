@@ -1,4 +1,7 @@
 #include <iostream>
+#include <utility>
+#include <vector>
+#include <string>
 
 #include "catch.hpp"
 #include "porter2_stemmer.h"
@@ -60,9 +63,33 @@ TEST_CASE("Indexed Terms") {
     }
 
 
-    SECTION("Addition Assignment") {
+    SECTION("Addition Assignment and Searching with value return") {
 
+        test0 += IndexedTerm(std::string("alito"), 58, 256);
+        test0 += IndexedTerm(std::string("alito"), 58, 512);
+        test0 += IndexedTerm(std::string("alito"), 512, 58);
 
+        REQUIRE(test0.getQuestionVector()[0].first == 58);
+        REQUIRE(test0.getQuestionVector()[0].second == 768);
+        REQUIRE(test0.getQuestionVector()[1].first == 512);
+        REQUIRE(test0.getQuestionVector()[1].second == 58);
+
+        test2 += IndexedTerm(std::string("kagan"), 812, 24);
+        REQUIRE_THROWS(test2 += IndexedTerm(std::string("sotomayor"), 212, 420));
+
+        REQUIRE(test2.getQuestionVector()[0].first == 812);
+        REQUIRE(test2.getQuestionVector()[0].second == 24);
+
+        test3 += IndexedTerm(std::string("gorsuch"), 67, 51);
+        test3 += IndexedTerm(std::string("gorsuch"), 198354, 65);
+        test3 += IndexedTerm(std::string("gorsuch"), 8675309, 47);
+
+        REQUIRE(test3.getQuestionVector()[0].first == 8675309);
+        REQUIRE(test3.getQuestionVector()[0].second == 89);
+        REQUIRE(test3.getQuestionVector()[1].first == 198354);
+        REQUIRE(test3.getQuestionVector()[1].second == 65);
+        REQUIRE(test3.getQuestionVector()[2].first == 67);
+        REQUIRE(test3.getQuestionVector()[2].second == 51);
 
     }
 
