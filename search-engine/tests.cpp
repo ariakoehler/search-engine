@@ -107,6 +107,7 @@ TEST_CASE("Indexed Terms") {
         REQUIRE(test3.search(198354).first.second == 65);
         REQUIRE(test3.search(198354).second);
         REQUIRE_FALSE(test3.search(9035768).second);
+
     }
 
 }

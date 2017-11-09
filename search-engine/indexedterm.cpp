@@ -107,3 +107,13 @@ void IndexedTerm::operator +=(const IndexedTerm& rhs) {
 /**
  * Stream Insertion Operator prints term followed by question ID's with frequencies
  */
+std::ostream& operator<<(std::ostream& os, IndexedTerm it) {
+
+    os << "\"" << it.term << "\" appears in :";
+    for(int i=0; i<it.idWithFrequency.size(); i++)
+        os << it.idWithFrequency[i].first << '(' <<
+              it.idWithFrequency[i].second << ')' <<
+              std::endl;
+
+    return os;
+}

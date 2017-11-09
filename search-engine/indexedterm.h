@@ -1,6 +1,7 @@
 #ifndef INDEXEDTERM_H
 #define INDEXEDTERM_H
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include <utility>
@@ -24,7 +25,7 @@ public:
     std::pair<std::pair<int, int>&, bool> search(int); //search for ID and return by value
     bool operator==(const IndexedTerm&) const; //opertor == just checks keys; worries about internal data later
     void operator+=(const IndexedTerm&); //operator += appends ID or increases frequency with given ID
-    //stream insertion operator prints term with contents of vector
+    friend std::ostream& operator <<(std::ostream&, IndexedTerm); //stream insertion operator prints term with contents of vector
 };
 
 #endif // INDEXEDTERM_H
