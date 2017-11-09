@@ -201,6 +201,7 @@ TEST_CASE("Hash Table") {
 
 }
 
+
 TEST_CASE("Indexed Terms") {
 
     IndexedTerm test0(std::string("alito"));
