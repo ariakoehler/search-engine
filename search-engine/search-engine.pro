@@ -7,7 +7,6 @@ CONFIG -= qt
 SOURCES += main.cpp \
     tests.cpp \
     porter2_stemmer.cpp \
-    documentparser.cpp \
     csvparser.c
 
 HEADERS += catch.hpp \
@@ -17,8 +16,6 @@ HEADERS += catch.hpp \
     avltree.hpp \
     hashtable.hpp \
     indexinterface.hpp \
-    documentparser.h \
-    csv.h \
     csvparser.h
 
 DISTFILES += \
