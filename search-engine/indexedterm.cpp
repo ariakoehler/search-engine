@@ -105,6 +105,24 @@ void IndexedTerm::operator +=(const IndexedTerm& rhs) {
 
 
 /**
+ * Compares the terms using lexicographical comparison of the
+ * ASCII values of each character in the string.
+ */
+bool IndexedTerm::operator <(const IndexedTerm& rhs) const {
+    return term < rhs.term;
+}
+
+
+/**
+ * Compares the terms using lexicographical comparison of the
+ * ASCII values of each character in the string.
+ */
+bool IndexedTerm::operator >(const IndexedTerm& rhs) const {
+    return term > rhs.term;
+}
+
+
+/**
  * Stream Insertion Operator prints term followed by question ID's with frequencies
  */
 std::ostream& operator<<(std::ostream& os, IndexedTerm it) {
