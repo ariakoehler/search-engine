@@ -11,6 +11,7 @@ TEST_CASE("External Libraries") {
 
 }
 
+
 TEST_CASE("AVL Tree") {
 
 
@@ -43,14 +44,6 @@ TEST_CASE("AVL Tree") {
     test4.insert(std::string("baz"));
     test4.insert(std::string("qux"));
 
-    /*
-    cout << test0 << endl;
-    cout << test1 << endl;
-    cout << test2 << endl;
-    cout << test3 << endl;
-    cout << test4 << endl;
-    cout << test5 << endl;
-    */
 
     SECTION("isEmpty") {
         REQUIRE_FALSE(test0.isEmpty());

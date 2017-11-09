@@ -9,11 +9,14 @@
 
 #include "indexinterface.hpp"
 
-/*
+/**
  * Implements an ordered index as a self-balancing AVL binary tree.
  *
- * Assumes that underlying data type has sensibly overloaded operator+
+ * Assumes that underlying data type has sensibly overloaded
  * and operator==.
+ *
+ * Also assumes that any values passed in are unique or can have data
+ * appended to them with operator+= without changing their ordering.
  */
 
 template <class T> class AVLTree : public IndexInterface<T>
@@ -169,7 +172,6 @@ AVLTree<T>& AVLTree<T>::operator =(const AVLTree<T>& rhs) {
 }
 
 
-//destructor clears all obects from the tree
 template<class T>
 AVLTree<T>::~AVLTree() {
     //call clear function with root
@@ -186,7 +188,9 @@ AVLTree<T>::~AVLTree() {
 //GETTERS AND SETTERS
 //===================
 
-//returns max value
+/**
+ * Returns the maximum value contained in the tree.
+ */
 template<class T>
 T& AVLTree<T>::findMax() {
     //call private max function with root pointer
@@ -194,7 +198,9 @@ T& AVLTree<T>::findMax() {
 }
 
 
-//returns max value of tree rooted at arg
+/**
+ * Privte interface for findMax method
+ */
 template<class T>
 T& AVLTree<T>::findMax(AVLNode<T> *& current) {
     //if right pointer is null, return this value
@@ -207,7 +213,9 @@ T& AVLTree<T>::findMax(AVLNode<T> *& current) {
 }
 
 
-//returns min value
+/**
+ * Returns the minimum value contained in the tree.
+ */
 template<class T>
 T& AVLTree<T>::findMin() {
     //call private min function with root pointer
@@ -215,7 +223,9 @@ T& AVLTree<T>::findMin() {
 }
 
 
-//returns min value of tree rooted at arg
+/**
+ * Privte interface for findMin method
+ */
 template<class T>
 T& AVLTree<T>::findMin(AVLNode<T> *& current) {
     //if left pointer is null, return this value
@@ -228,7 +238,9 @@ T& AVLTree<T>::findMin(AVLNode<T> *& current) {
 }
 
 
-//determines if tree is empty
+/**
+ * Returns true if tree is empty, false if not.
+ */
 template<class T>
 bool AVLTree<T>::isEmpty() const {
     //returns true iff root is null
@@ -236,7 +248,9 @@ bool AVLTree<T>::isEmpty() const {
 }
 
 
-//clears the tree
+/**
+ *  Empties the tree and frees all allocated memory
+ */
 template<class T>
 void AVLTree<T>::makeEmpty() {
     //calls private clear all function with root pointer
@@ -268,7 +282,10 @@ void AVLTree<T>::clear(AVLNode<T> *& current) {
 }
 
 
-//overloaded stream insertion operator
+/*
+ * Overloaded stream insertion operator prints each element according
+ * to a preorder traversal.
+ */
 template<class T>
 std::ostream& operator <<(std::ostream& os, const AVLTree<T>& tree) {
     //passes root pointer to print function
@@ -277,7 +294,9 @@ std::ostream& operator <<(std::ostream& os, const AVLTree<T>& tree) {
 }
 
 
-//prints each element in preorder traversal
+/**
+ * Private interface for stream insertion operator
+ */
 template<class T>
 std::ostream& AVLTree<T>::print(std::ostream & os, AVLNode<T> * current) const {
     //if not null
@@ -301,7 +320,9 @@ std::ostream& AVLTree<T>::print(std::ostream & os, AVLNode<T> * current) const {
 //SEARCHING
 //=========
 
-//determines if arg is an element
+/**
+ * Determines whether or not the passed argument is an element of the tree
+ */
 template<class T>
 bool AVLTree<T>::contains(const T & arg) const {
     //return value of private function, passing root pointer
@@ -309,7 +330,9 @@ bool AVLTree<T>::contains(const T & arg) const {
 }
 
 
-//determines if arg is an element of tree rooted at arg
+/**
+ * Private interface for contains method
+ */
 template<class T>
 bool AVLTree<T>::contains(const T & arg, AVLNode<T> * current) const {
     //if this is null, return false
@@ -329,14 +352,20 @@ bool AVLTree<T>::contains(const T & arg, AVLNode<T> * current) const {
         return contains(arg, current->right);
 }
 
-
-//searches for and returns arg
+/**
+ * Searches for the passed value and returns that data from the tree if it is there.
+ * If not, indicates with a false value.
+ */
 template<class T>
 std::pair<T, bool> AVLTree<T>::search(const T & arg) {
     //return value of private function, passing root pointer
     return search(arg, root);
 }
 
+
+/**
+ * Private interface for search method
+ */
 
 //searches for and returns arg in tree rooted at arg
 template<class T>
@@ -369,8 +398,10 @@ std::pair<T, bool> AVLTree<T>::search(const T & arg, AVLNode<T> *& current) {
  * OTHERWISE NONE OF THIS WORKS.
  */
 
-
-//inserts arg
+/**
+ * Determines where a passed value should be inserted into the tree
+ * and inserts there.
+ */
 template<class T>
 void AVLTree<T>::insert(const T & arg) {
     //create list of strings, indicating directions taken when traversing list
@@ -381,7 +412,9 @@ void AVLTree<T>::insert(const T & arg) {
 }
 
 
-//inserts arg to tree rooted at arg (with tree trace list and iterator as parms)
+/**
+ * Private interface for insertion method
+ */
 template<class T>
 void AVLTree<T>::insert(const T & arg, AVLNode<T> *& current) {
     //if current is null, assign current to pointer
@@ -414,6 +447,7 @@ void AVLTree<T>::insert(const T & arg, AVLNode<T> *& current) {
 }
 
 
+
 //========
 //ROTATING
 //========
@@ -425,7 +459,9 @@ void AVLTree<T>::insert(const T & arg, AVLNode<T> *& current) {
  * OTHERWISE NONE OF THIS WORKS.
  */
 
-//get balance of node
+/**
+ * Gets the balance (difference in child heights) of node passed as argument
+ */
 template <class T>
 int AVLTree<T>::getBalance(AVLNode<T> * balancingNode) {
     //returns height of right - height of right
@@ -434,7 +470,10 @@ int AVLTree<T>::getBalance(AVLNode<T> * balancingNode) {
 }
 
 
-//rebalance node
+/**
+ * Determines whether or not a node is imbalanced and, if so,
+ * rebalances the node with the appropriate rotation
+ */
 template <class T>
 void AVLTree<T>::rebalance(T arg, AVLNode<T> *& current) {
     //get balance of node
@@ -464,7 +503,9 @@ void AVLTree<T>::rebalance(T arg, AVLNode<T> *& current) {
 }
 
 
-//case 1 rotation
+/**
+ * Case 1 rotation, when inserted node is in left subtree of left child
+ */
 template <class T>
 void AVLTree<T>::case1Rotation(AVLNode<T> *& topNode) {
     //get pointer to left child (LC)
@@ -488,7 +529,9 @@ void AVLTree<T>::case1Rotation(AVLNode<T> *& topNode) {
 }
 
 
-//case 4 rotation
+/**
+ * Case 4 rotation, when inserted node is in right subtree of right child
+ */
 template <class T>
 void AVLTree<T>::case4Rotation(AVLNode<T> *& topNode) {
     //get pointer to right child (RC)
@@ -512,7 +555,9 @@ void AVLTree<T>::case4Rotation(AVLNode<T> *& topNode) {
 }
 
 
-//case 2 rotation
+/**
+ * Case 2 rotation, when inserted node is in right subtree of left child
+ */
 template <class T>
 void AVLTree<T>::case2Rotation(AVLNode<T> *& topNode) {
     //case 4 rotation on root's left pointer
@@ -523,7 +568,9 @@ void AVLTree<T>::case2Rotation(AVLNode<T> *& topNode) {
 }
 
 
-//case 3 rotation
+/**
+ * Case 3 rotation, when inserted node is in left subtree of right child
+ */
 template <class T>
 void AVLTree<T>::case3Rotation(AVLNode<T> *& topNode) {
     //case 1 rotation on root's right pointer
