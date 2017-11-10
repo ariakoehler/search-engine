@@ -7,7 +7,8 @@ CONFIG -= qt
 SOURCES += main.cpp \
     tests.cpp \
     porter2_stemmer.cpp \
-    csvparser.c
+    csvparser.c \
+    documentparser.cpp
 
 HEADERS += catch.hpp \
     porter2_stemmer.h \
@@ -16,7 +17,8 @@ HEADERS += catch.hpp \
     avltree.hpp \
     hashtable.hpp \
     indexinterface.hpp \
-    csvparser.h
+    csvparser.h \
+    documentparser.h
 
 DISTFILES += \
     ../../fast-cpp-csv-parser-master.zip
