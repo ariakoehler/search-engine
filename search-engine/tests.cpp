@@ -290,3 +290,8 @@ TEST_CASE("Indexed Terms") {
     }
 
 }
+
+
+TEST_CASE("Index Handler") {
+
+}
