@@ -2,6 +2,7 @@
 #define INDEXHANDLER_H
 
 #include <string>
+#include <utility>
 
 #include "indexinterface.hpp"
 #include "indexedterm.h"
@@ -18,7 +19,7 @@ public:
     ~IndexHandler();
     void addToIndex(std::string, int, int); //adds object to index
     IndexInterface<IndexedTerm> * getIndex();
-    //searches index for object by key
+    std::pair<IndexedTerm, bool> searchIndex(std::string); //searches index for object by key
     //writes index to disk
     //reads index from disk
 };

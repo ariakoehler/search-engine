@@ -42,7 +42,10 @@ IndexInterface<IndexedTerm> *IndexHandler::getIndex() {
 /**
  * Searches the index for the specified term.
  */
+std::pair<IndexedTerm, bool> IndexHandler::searchIndex(std::string toBeFound) {
     //create object according to term and return results of index search
+    return documentIndex->search(IndexedTerm(toBeFound));
+}
 
 
 /**
