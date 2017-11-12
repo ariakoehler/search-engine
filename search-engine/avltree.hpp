@@ -124,7 +124,6 @@ AVLTree<T>::AVLTree(const AVLTree<T>& rhs) : IndexInterface<T>() {
         transferQueue.pop();
 
         //insert value popped to this tree
-        std::cout << temp->data << std::endl;
         insert(temp->data);
 
         //if right child not null, push to queue
@@ -162,7 +161,6 @@ AVLTree<T>& AVLTree<T>::operator =(const AVLTree<T>& rhs) {
             transferQueue.pop();
 
             //insert value popped to this tree
-            std::cout << temp->data << std::endl;
             insert(temp->data);
 
             //if right child not null, push to queue

@@ -295,11 +295,24 @@ TEST_CASE("Indexed Terms") {
 
 TEST_CASE("Index Handler") {
 
-//    IndexHandler testAvl("avl");
+    IndexHandler testAvl("avl");
 //    IndexHandler testHash("hash");
 
     SECTION("Adding things to the Index") {
+        testAvl.addToIndex("functional analysis", 812, 10);
+        testAvl.addToIndex("abstract algebra", 286, 5);
+        testAvl.addToIndex("topology", 420, 8);
+        testAvl.addToIndex("abstract algebra", 286, 15);
+        testAvl.addToIndex("abstract algebra", 186, 10);
 
+        IndexInterface<IndexedTerm> * testTree = testAvl.getIndex();
+
+
+        IndexedTerm tester("abstract algebra", 286, 20);
+        tester += IndexedTerm("abstract algebra", 186, 10);
+        REQUIRE(testTree->contains(tester));
+        REQUIRE(testTree->contains(IndexedTerm("functional analysis", 812, 10)));
+        REQUIRE(testTree->contains(IndexedTerm("topology", 420, 8)));
     }
 
 

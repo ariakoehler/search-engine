@@ -24,8 +24,20 @@ IndexHandler::~IndexHandler() {
 /**
  * Adds an object with the specified term, question ID, and frequency to the index.
  */
-    //create object according to specifications and insert to index
+void IndexHandler::addToIndex(std::string term, int questionId, int frequency) {
 
+    //create object according to specifications and insert to index
+    IndexedTerm newTerm(term, questionId, frequency);
+    documentIndex->insert(newTerm);
+}
+
+
+/**
+ * For debugging; delete later
+ */
+IndexInterface<IndexedTerm> *IndexHandler::getIndex() {
+    return documentIndex;
+}
 
 /**
  * Searches the index for the specified term.

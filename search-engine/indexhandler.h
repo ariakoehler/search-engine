@@ -16,7 +16,8 @@ private:
 public:
     IndexHandler(std::string = "hash");
     ~IndexHandler();
-    //adds object to index
+    void addToIndex(std::string, int, int); //adds object to index
+    IndexInterface<IndexedTerm> * getIndex();
     //searches index for object by key
     //writes index to disk
     //reads index from disk
