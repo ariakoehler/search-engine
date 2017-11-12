@@ -3,16 +3,19 @@
 
 #include <string>
 
-#include "indexhandler.h"
+#include "indexinterface.hpp"
 #include "indexedterm.h"
+#include "avltree.hpp"
+#include "hashtable.hpp"
 
 class IndexHandler
 {
 private:
-    //pointer to Index base class
+    IndexInterface<IndexedTerm> * documentIndex; //pointer to Index base class
     
 public:
     IndexHandler(std::string = "hash");
+    ~IndexHandler();
     //adds object to index
     //searches index for object by key
     //writes index to disk

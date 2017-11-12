@@ -127,11 +127,10 @@ bool IndexedTerm::operator >(const IndexedTerm& rhs) const {
  */
 std::ostream& operator<<(std::ostream& os, IndexedTerm it) {
 
-    os << "\"" << it.term << "\" appears in :";
+    os << it.term;
     for(int i=0; i<it.idWithFrequency.size(); i++)
-        os << it.idWithFrequency[i].first << '(' <<
-              it.idWithFrequency[i].second << ')' <<
-              std::endl;
+        os << '|' << it.idWithFrequency[i].first <<
+              '|' << it.idWithFrequency[i].second;
 
     return os;
 }

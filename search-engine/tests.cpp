@@ -8,6 +8,7 @@
 #include "hashtable.hpp"
 #include "avltree.hpp"
 #include "indexedterm.h"
+#include "indexhandler.h"
 
 using namespace std;
 
@@ -286,12 +287,33 @@ TEST_CASE("Indexed Terms") {
         REQUIRE(test3.search(198354).first.second == 65);
         REQUIRE(test3.search(198354).second);
         REQUIRE_FALSE(test3.search(9035768).second);
-
     }
 
 }
 
 
 TEST_CASE("Index Handler") {
+
+    IndexHandler testAvl("avl");
+//    IndexHandler testHash("hash");
+
+    SECTION("Adding things to the Index") {
+
+    }
+
+
+    SECTION("Searching for things in the index") {
+
+    }
+
+
+    SECTION("Writing to disk") {
+
+    }
+
+
+    SECTION("Reading from disk") {
+
+    }
 
 }
