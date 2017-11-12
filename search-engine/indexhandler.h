@@ -3,6 +3,8 @@
 
 #include <string>
 #include <utility>
+#include <fstream>
+#include <iostream>
 
 #include "indexinterface.hpp"
 #include "indexedterm.h"
@@ -20,8 +22,8 @@ public:
     void addToIndex(std::string, int, int); //adds object to index
     IndexInterface<IndexedTerm> * getIndex();
     std::pair<IndexedTerm, bool> searchIndex(std::string); //searches index for object by key
-    //writes index to disk
-    //reads index from disk
+    void writeToDisk(); //writes index to disk
+    void readFromDisk();//reads index from disk
 };
 
 #endif // INDEXHANDLER_H

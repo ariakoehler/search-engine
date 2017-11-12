@@ -51,9 +51,23 @@ std::pair<IndexedTerm, bool> IndexHandler::searchIndex(std::string toBeFound) {
 /**
  * Writes the index to a persistent file location in disk
  */
+void IndexHandler::writeToDisk() {
+
+    std::string fileName("../index.txt");
+    std::ofstream fileOut;
+
+    fileOut.open(fileName.c_str(), std::ios::out);
+
     //don't forget to check if open and close afterwards
+    if(!fileOut.is_open())
+        throw std::runtime_error("Failed to open file for persisting index past runtime.");
+
     //level-order traversal using queue
+    std::queue<IndexedTerm> outputQueue;
+    IndexedTerm temp;
+
     //each visit to a node has it being printed to file
+}
 
 
 /**
