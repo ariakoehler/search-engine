@@ -188,8 +188,8 @@ TEST_CASE("AVL Tree") {
          * interface for accessing members directly.
          */
 
-        AVLTree<std::string> copy3(test3);
-//        cout << copy3 << endl;
+        AVLTree<int> copy1(test1);
+//        cout << copy1 << endl;
 
         AVLTree<std::string> copy4 = test4;
 //        cout << copy4 << endl;
@@ -204,6 +204,7 @@ TEST_CASE("Hash Table") {
 
 
 TEST_CASE("Indexed Terms") {
+
 
     IndexedTerm test0(std::string("alito"));
     IndexedTerm test1(std::string("sotomayor"));
@@ -294,7 +295,7 @@ TEST_CASE("Indexed Terms") {
 
 TEST_CASE("Index Handler") {
 
-    IndexHandler testAvl("avl");
+//    IndexHandler testAvl("avl");
 //    IndexHandler testHash("hash");
 
     SECTION("Adding things to the Index") {

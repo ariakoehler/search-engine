@@ -108,6 +108,9 @@ AVLTree<T>::AVLTree() : root(nullptr) { }
  */
 template<class T>
 AVLTree<T>::AVLTree(const AVLTree<T>& rhs) : IndexInterface<T>() {
+    //initialize root to nullptr first
+    root = nullptr;
+
     //create a queue of node pointers and push root
     std::queue<AVLNode<T>*> transferQueue;
     transferQueue.push(rhs.root);
@@ -121,6 +124,7 @@ AVLTree<T>::AVLTree(const AVLTree<T>& rhs) : IndexInterface<T>() {
         transferQueue.pop();
 
         //insert value popped to this tree
+        std::cout << temp->data << std::endl;
         insert(temp->data);
 
         //if right child not null, push to queue
@@ -142,6 +146,9 @@ template<class T>
 AVLTree<T>& AVLTree<T>::operator =(const AVLTree<T>& rhs) {
     //check to see that input is a different object
     if(&rhs != this) {
+        //initialize root to nullptr first
+        root = nullptr;
+
         //performs copy constructor logic
         std::queue<AVLNode<T>*> transferQueue;
         transferQueue.push(rhs.root);
@@ -155,6 +162,7 @@ AVLTree<T>& AVLTree<T>::operator =(const AVLTree<T>& rhs) {
             transferQueue.pop();
 
             //insert value popped to this tree
+            std::cout << temp->data << std::endl;
             insert(temp->data);
 
             //if right child not null, push to queue
