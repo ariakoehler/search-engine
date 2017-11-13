@@ -8,6 +8,7 @@
 #include "hashtable.hpp"
 #include "avltree.hpp"
 #include "indexedterm.h"
+#include "indexhandler.h"
 
 using namespace std;
 
@@ -187,8 +188,8 @@ TEST_CASE("AVL Tree") {
          * interface for accessing members directly.
          */
 
-        AVLTree<std::string> copy3(test3);
-//        cout << copy3 << endl;
+        AVLTree<int> copy1(test1);
+//        cout << copy1 << endl;
 
         AVLTree<std::string> copy4 = test4;
 //        cout << copy4 << endl;
@@ -201,7 +202,9 @@ TEST_CASE("Hash Table") {
 
 }
 
+
 TEST_CASE("Indexed Terms") {
+
 
     IndexedTerm test0(std::string("alito"));
     IndexedTerm test1(std::string("sotomayor"));
@@ -285,6 +288,61 @@ TEST_CASE("Indexed Terms") {
         REQUIRE(test3.search(198354).first.second == 65);
         REQUIRE(test3.search(198354).second);
         REQUIRE_FALSE(test3.search(9035768).second);
+    }
+
+}
+
+
+TEST_CASE("Index Handler") {
+
+    IndexHandler testAvl("avl");
+//    IndexHandler testHash("hash");
+
+    testAvl.addToIndex("functional analysis", 812, 10);
+    testAvl.addToIndex("abstract algebra", 286, 5);
+    testAvl.addToIndex("topology", 420, 8);
+    testAvl.addToIndex("abstract algebra", 286, 15);
+    testAvl.addToIndex("abstract algebra", 186, 10);
+
+
+    SECTION("Adding things to the Index") {
+
+        IndexInterface<IndexedTerm> * testTree = testAvl.getIndex();
+
+        REQUIRE(testTree->contains(IndexedTerm("abstract algebra")));
+        REQUIRE(testTree->contains(IndexedTerm("functional analysis")));
+        REQUIRE(testTree->contains(IndexedTerm("topology")));
+
+//        cout << testTree->search(IndexedTerm("abstract algebra")).first << endl;
+//        cout << testTree->search(IndexedTerm("functional analysis")).first << endl;
+//        cout << testTree->search(IndexedTerm("topology")).first << endl;
+    }
+
+
+    SECTION("Searching for things in the index") {
+
+        REQUIRE(testAvl.searchIndex("abstract algebra").second);
+        REQUIRE(testAvl.searchIndex("abstract algebra").first.getQuestionVector()[0].first == 286);
+        REQUIRE(testAvl.searchIndex("abstract algebra").first.getQuestionVector()[0].second == 20);
+        REQUIRE(testAvl.searchIndex("abstract algebra").first.getQuestionVector()[1].first == 186);
+        REQUIRE(testAvl.searchIndex("abstract algebra").first.getQuestionVector()[1].second == 10);
+
+        REQUIRE(testAvl.searchIndex("functional analysis").second);
+        REQUIRE(testAvl.searchIndex("functional analysis").first.getQuestionVector()[0].first == 812);
+        REQUIRE(testAvl.searchIndex("functional analysis").first.getQuestionVector()[0].second == 10);
+
+        REQUIRE(testAvl.searchIndex("topology").second);
+        REQUIRE(testAvl.searchIndex("topology").first.getQuestionVector()[0].first == 420);
+        REQUIRE(testAvl.searchIndex("topology").first.getQuestionVector()[0].second == 8);
+    }
+
+
+    SECTION("Writing to disk") {
+
+    }
+
+
+    SECTION("Reading from disk") {
 
     }
 

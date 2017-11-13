@@ -6,7 +6,8 @@ CONFIG -= qt
 SOURCES += main.cpp \
     tests.cpp \
     porter2_stemmer.cpp \
-    indexedterm.cpp
+    indexedterm.cpp \
+    indexhandler.cpp
 
 HEADERS += catch.hpp \
     porter2_stemmer.h \
@@ -15,4 +16,5 @@ HEADERS += catch.hpp \
     avltree.hpp \
     hashtable.hpp \
     indexinterface.hpp \
-    indexedterm.h
+    indexedterm.h \
+    indexhandler.h

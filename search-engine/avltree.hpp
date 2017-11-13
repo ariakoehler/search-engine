@@ -107,7 +107,10 @@ AVLTree<T>::AVLTree() : root(nullptr) { }
  * input tree, inserting each element to this tree
  */
 template<class T>
-AVLTree<T>::AVLTree(const AVLTree<T>& rhs) {
+AVLTree<T>::AVLTree(const AVLTree<T>& rhs) : IndexInterface<T>() {
+    //initialize root to nullptr first
+    root = nullptr;
+
     //create a queue of node pointers and push root
     std::queue<AVLNode<T>*> transferQueue;
     transferQueue.push(rhs.root);
@@ -142,6 +145,9 @@ template<class T>
 AVLTree<T>& AVLTree<T>::operator =(const AVLTree<T>& rhs) {
     //check to see that input is a different object
     if(&rhs != this) {
+        //initialize root to nullptr first
+        root = nullptr;
+
         //performs copy constructor logic
         std::queue<AVLNode<T>*> transferQueue;
         transferQueue.push(rhs.root);
@@ -350,6 +356,11 @@ bool AVLTree<T>::contains(const T & arg, AVLNode<T> * current) const {
     //if target value greater than this, call with right
     else if(arg > current->data)
         return contains(arg, current->right);
+
+    else {
+        throw std::runtime_error("The relationship between your data and the "
+                                 "data in the tree cannot be resolved.");
+    }
 }
 
 /**
