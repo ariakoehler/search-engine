@@ -9,6 +9,8 @@ SOURCES += main.cpp \
     porter2_stemmer.cpp \
     csvparser.c \
     documentparser.cpp
+    indexedterm.cpp \
+    indexhandler.cpp
 
 HEADERS += catch.hpp \
     porter2_stemmer.h \
@@ -22,3 +24,5 @@ HEADERS += catch.hpp \
 
 DISTFILES += \
     ../../fast-cpp-csv-parser-master.zip
+    indexedterm.h \
+    indexhandler.h
