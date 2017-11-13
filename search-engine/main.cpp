@@ -17,13 +17,17 @@ int main(int argc, char *argv[])
 {
     DocumentParser d;
     d.loadStopWords("../stop_words.txt");
-    d.parse("../data/2008-questions.csv");
+    //d.parse("../data/2008-questions.csv");
     cout << "Finished 2008" << endl;
-    d.parse("../data/2009-questions.csv");
+    vector<string> s = d.questionLookup(404060);
+    for(int i = 0; i < s.size(); i++)
+        cout << s[i] << endl;
+    /*
+    //d.parse("../data/2009-questions.csv");
     cout << "Finished 2009" << endl;
-    d.parse("../data/2010-questions.csv");
+    //d.parse("../data/2010-questions.csv");
     cout << "Finished 2010" << endl;
-    d.parse("../data/2011-questions.csv");
+    //d.parse("../data/2011-questions.csv");
     cout << "Finished 2011" << endl;
     //d.parse("../data/2012-questions.csv");
     cout << "Finished 2012" << endl;
@@ -35,6 +39,7 @@ int main(int argc, char *argv[])
     cout << "Finished 2015" << endl;
     //d.parse("../data/2016-questions.csv");
     cout << "Finished 2016" << endl;
+    */
     return 0;
     /*
     if (std::string(argv[1]) == std::string("-t")) {

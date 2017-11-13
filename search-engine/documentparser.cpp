@@ -5,10 +5,9 @@
 #include <sstream>
 #include <cstring>
 #include <strings.h>
-DocumentParser::DocumentParser()
-{
-    set_stop_words.insert("a");
+DocumentParser::DocumentParser(){
 }
+
 void DocumentParser::loadStopWords(std::string fileName){
     std::ifstream stopWords;
     std::string buffer;
@@ -57,7 +56,7 @@ void DocumentParser::parse(std::string fileName){
         //std::cout << "BODY" << std::endl;
         parseString(id, 1, body);
         //std::cout << "CODE" << std::endl;
-        parseString(id, 0, code);
+        parseString(id, 1, code);
         CsvParser_destroy_row(row);
     }
     CsvParser_destroy(csvparser);
@@ -108,7 +107,85 @@ void DocumentParser::sendToIndex(std::string term, int questionID, int frequency
 }
 
 void DocumentParser::tagParse(std::string fileName){
-
+    int id, i = 0;
+    std::string tag;
+    //                                   file, delimiter, first_line_is_header?
+    CsvParser *csvparser = CsvParser_new(fileName.c_str(), ",", 1);
+    CsvRow *row;
+    const CsvRow *header = CsvParser_getHeader(csvparser);
+    //checks if header exists, always should with these .csv files
+    if (header == NULL) {
+        printf("%s\n", CsvParser_getErrorMessage(csvparser));
+        return;
+    }
+    //assigns headers, might be useful?
+    const char **headerFields = CsvParser_getFields(header);
+    for (i = 0 ; i < CsvParser_getNumFields(header) ; i++) {
+        //printf("TITLE: %s\n", headerFields[i]);
+    }
+    //gets next question and breaks it up
+    while ((row = CsvParser_getRow(csvparser))) {
+        const char **rowFields = CsvParser_getFields(row);
+        //assigns each field to proper variable, ignoring dummy field
+        id = atoi(rowFields[1]);
+        tag = rowFields[2];
+        Porter2Stemmer::trim(tag);
+        Porter2Stemmer::stem(tag);
+        sendToIndex(tag, id, 10);
+    }
+    CsvParser_destroy(csvparser);
 }
 //tag parsing
 //question lookup based on ID
+std::vector<std::string> DocumentParser::questionLookup(int lookupID){
+    int id, i = 0;
+    std::vector<std::string> vec;
+    std::string fileName = findDocument(id);
+    //                                   file, delimiter, first_line_is_header?
+    CsvParser *csvparser = CsvParser_new(fileName.c_str(), ",", 1);
+    CsvRow *row;
+    const CsvRow *header = CsvParser_getHeader(csvparser);
+    //checks if header exists, always should with these .csv files
+    if (header == NULL) {
+        printf("%s\n", CsvParser_getErrorMessage(csvparser));
+        return vec;
+    }
+    //assigns headers, might be useful?
+    const char **headerFields = CsvParser_getFields(header);
+    for (i = 0 ; i < CsvParser_getNumFields(header) ; i++) {
+        //printf("TITLE: %s\n", headerFields[i]);
+    }
+    //gets next question and breaks it up
+    while ((row = CsvParser_getRow(csvparser))) {
+        const char **rowFields = CsvParser_getFields(row);
+        //assigns each field to proper variable, ignoring dummy field
+        id = atoi(rowFields[1]);
+        if(id == lookupID){
+            for(int i = 1; i <= 7; i++)
+                vec.push_back(std::string(rowFields[i]));
+            return vec;
+        }
+    }
+}
+
+std::string DocumentParser::findDocument(int id){
+    if(id >= 80 && id <= 404290)
+        return "2008-questions.csv";
+    else if(id >= 404430 && id <= 2274530)
+        return "2009-questions.csv";
+    else if(id >= 1987570 && id <= 4572720)
+        return "2010-questions.csv";
+    else if(id >= 4572790 && id <= 8691130)
+        return "2011-questions.csv";
+    //not finished
+    else if(id >= 404430 && id <= 2274530)
+        return "2012-questions.csv";
+    else if(id >= 404430 && id <= 2274530)
+        return "2013-questions.csv";
+    else if(id >= 404430 && id <= 2274530)
+        return "2014-questions.csv";
+    else if(id >= 404430 && id <= 2274530)
+        return "2015-questions.csv";
+    else
+        return "2016-questions.csv";
+}
