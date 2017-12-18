@@ -7,16 +7,16 @@
 #include <utility>
 #include <string>
 
+#include "indexedterm.h"
 #include "indexinterface.hpp"
 
 /**
  * Implements an ordered index as a self-balancing AVL binary tree.
  *
- * Assumes that underlying data type has sensibly overloaded
- * and operator==.
- *
  * Also assumes that any values passed in are unique or can have data
  * appended to them with operator+= without changing their ordering.
+ *
+ * Owner: Carter
  */
 
 template <class T> class AVLTree : public IndexInterface<T>
@@ -59,15 +59,19 @@ private:
     };
 
     AVLNode<T> * root;
+    int numTerms = 0;
 
     T& findMax(AVLNode<T>*&); //finds the maximum value in tree rooted at arg
     T& findMin(AVLNode<T>*&); //finds the minimum value in tree rooted at arg
     void insert(const T &, AVLNode<T> *&); //inserts to tree rooted at arg
+    void stringInsert(const std::string &, int, int, int, AVLNode<T>*&);
     std::pair<T,bool> search(const T&, AVLNode<T>*&); //searches in tree rooted at arg
+    std::pair<T,bool> stringSearch(const std::string &, AVLNode<T>*&);
     bool contains(const T &, AVLNode<T>*) const; //determines if arg is an element of tree rooted at arg
     void clear(AVLNode<T>*&); //clears tree rooted at arg
     int getBalance(AVLNode<T>*); //get balance of node
     void rebalance(T, AVLNode<T>*&); //rebalance node
+    void getTopFifty(std::vector<T>&, AVLNode<T>*&);
     std::ostream& print(std::ostream&, AVLNode<T> *) const;//print tree rooted at arg
     void case1Rotation(AVLNode<T>*&); //case 1 rotation
     void case4Rotation(AVLNode<T>*&); //case 4 rotation
@@ -85,8 +89,13 @@ public:
     void insert(const T &); //inserts arg
     bool isEmpty() const; //determines if tree is empty
     void makeEmpty(); //clears the tree
+    std::pair<T, bool> stringSearch(const std::string &);
+    void stringInsert(const std::string &, int, int, int);
     T& findMax(); //finds the maximum value
     T& findMin();//finds the minimum value
+    std::ostream& print(std::ostream&) const; //prints in level-order
+    std::vector<T> getTopFifty();
+    int getTerms() const;
 
     template <class U>
     friend std::ostream& operator <<(std::ostream&, const AVLTree<U>&);     //stream insertion operator
@@ -113,7 +122,9 @@ AVLTree<T>::AVLTree(const AVLTree<T>& rhs) : IndexInterface<T>() {
 
     //create a queue of node pointers and push root
     std::queue<AVLNode<T>*> transferQueue;
-    transferQueue.push(rhs.root);
+
+    if(root != nullptr)
+        transferQueue.push(rhs.root);
 
     AVLNode<T>* temp;
 
@@ -150,7 +161,9 @@ AVLTree<T>& AVLTree<T>::operator =(const AVLTree<T>& rhs) {
 
         //performs copy constructor logic
         std::queue<AVLNode<T>*> transferQueue;
-        transferQueue.push(rhs.root);
+
+        if(root != nullptr)
+            transferQueue.push(rhs.root);
 
         AVLNode<T>* temp;
 
@@ -322,6 +335,66 @@ std::ostream& AVLTree<T>::print(std::ostream & os, AVLNode<T> * current) const {
 }
 
 
+/**
+ * Prints contents of the tree according to a level-order traversal
+ */
+template <class T>
+std::ostream& AVLTree<T>::print(std::ostream & os) const {
+    //initialize queue of avlnode pointers
+    std::queue<AVLNode<T> *> printQueue;
+
+    //push root to queue
+    if(root != nullptr)
+        printQueue.push(root);
+    AVLNode<T> * temp;
+
+    //while queue not empty, print next node and push all non-null children
+    while(!printQueue.empty()) {
+        temp = printQueue.front();
+        printQueue.pop();
+
+        os << temp->data << std::endl;
+
+        if(temp->right != nullptr)
+            printQueue.push(temp->right);
+        if(temp->left != nullptr)
+            printQueue.push(temp->left);
+    }
+
+    return os;
+}
+
+
+template <class T>
+std::vector<T> AVLTree<T>::getTopFifty() {
+    //call private function with roots
+    std::vector<T> tops;
+    getTopFifty(tops, root);
+
+    std::sort(tops.begin(), tops.end(),
+              [](const IndexedTerm& lhs, const IndexedTerm& rhs) ->
+              bool{ return lhs.getTotalFreq() > rhs.getTotalFreq(); });
+
+    tops.resize(50);
+    return tops;
+}
+
+
+template <class T>
+void AVLTree<T>::getTopFifty(std::vector<T> & tops, AVLNode<T> *& current) {
+
+    if(current != nullptr) {
+        getTopFifty(tops, current->left);
+
+        if(current->data.getTotalFreq() >= 1000) {
+            tops.push_back(current->data);
+        }
+
+        getTopFifty(tops, current->right);
+    }
+}
+
+
 //=========
 //SEARCHING
 //=========
@@ -377,7 +450,6 @@ std::pair<T, bool> AVLTree<T>::search(const T & arg) {
 /**
  * Private interface for search method
  */
-
 //searches for and returns arg in tree rooted at arg
 template<class T>
 std::pair<T, bool> AVLTree<T>::search(const T & arg, AVLNode<T> *& current) {
@@ -398,16 +470,36 @@ std::pair<T, bool> AVLTree<T>::search(const T & arg, AVLNode<T> *& current) {
 }
 
 
+/**
+ * Searches the tree for IndexedTerms based on their string keys
+ */
+template<class T>
+std::pair<T, bool> AVLTree<T>::stringSearch(const std::string & word) {
+    return stringSearch(word, root);
+}
+
+
+/**
+ * Private interface for searching IndexedTerms based on string key
+ */
+template<class T>
+std::pair<T, bool> AVLTree<T>::stringSearch(const std::string & word, AVLNode<T> *& current) {
+    if(current == nullptr)
+        return std::pair<T, bool>(word, false);
+
+    else if(current->data.getTerm() == word)
+        return std::pair<T, bool>(current->data, true);
+
+    else if(word < current->data.getTerm())
+        return stringSearch(word, current->left);
+
+    else
+        return stringSearch(word, current->right);
+}
+
 //=========
 //INSERTING
 //=========
-
-/*
- * NOTE TO SELF:
- *
- * MAKE SURE TO PASS ALL POINTERS BY REFERENCE
- * OTHERWISE NONE OF THIS WORKS.
- */
 
 /**
  * Determines where a passed value should be inserted into the tree
@@ -415,8 +507,6 @@ std::pair<T, bool> AVLTree<T>::search(const T & arg, AVLNode<T> *& current) {
  */
 template<class T>
 void AVLTree<T>::insert(const T & arg) {
-    //create list of strings, indicating directions taken when traversing list
-    std::list<std::string> treeTrace;
 
     //call private function with root pointer
     insert(arg, root);
@@ -429,12 +519,15 @@ void AVLTree<T>::insert(const T & arg) {
 template<class T>
 void AVLTree<T>::insert(const T & arg, AVLNode<T> *& current) {
     //if current is null, assign current to pointer
-    if(current == nullptr)
+    if(current == nullptr) {
         current = new AVLNode<T>(arg);
+        numTerms++;
+    }
 
     //if node equal to value, append data to this element
-    else if(current->data == arg)
+    else if(current->data == arg) {
         current->data += arg;
+    }
 
     //if value greater than node
     else if(arg > current->data) {
@@ -458,17 +551,66 @@ void AVLTree<T>::insert(const T & arg, AVLNode<T> *& current) {
 }
 
 
+/**
+ * Inserts a string to the index based on its string key
+ */
+template<class T>
+void AVLTree<T>::stringInsert(const std::string & word, int id, int freq, int loc) {
+    stringInsert(word, id, freq, loc, root);
+}
+
+
+/**
+ * Searches for the given string. If not already in the index, creates a new node with its data.
+ * If already present, appends the given data.
+ */
+template<class T>
+void AVLTree<T>::stringInsert(const std::string & word, int id, int freq, int loc, AVLNode<T> *& current) {
+    //if current is null, assign current to pointer
+    if(current == nullptr) {
+        current = new AVLNode<T>(IndexedTerm(word, id, freq, loc));
+        numTerms++;
+    }
+
+    //if node equal to value, append data to this element
+    else if(current->data.getTerm() == word) {
+        current->data.appendData(id, freq, loc);
+    }
+
+    //if value greater than node
+    else if(word > current->data.getTerm()) {
+        //call recursively with right pointer
+        stringInsert(word, id, freq, loc, current->right);
+
+        //rebalance current and set height
+        rebalance(word, current);
+        current->updateHeight();
+    }
+
+    //if value greater than node
+    else if(word < current->data.getTerm()) {
+        //call recursively with left pointer
+        stringInsert(word, id, freq, loc, current->left);
+
+        //rebalance current and set height
+        rebalance(word, current);
+        current->updateHeight();
+    }
+}
+
+
+/**
+ * Returns the number of terms that have been indexed by the tree
+ */
+template <class T>
+int AVLTree<T>::getTerms() const {
+    return numTerms;
+}
+
 
 //========
 //ROTATING
 //========
-
-/*
- * NOTE TO SELF:
- *
- * MAKE SURE TO PASS ALL POINTERS BY REFERENCE
- * OTHERWISE NONE OF THIS WORKS.
- */
 
 /**
  * Gets the balance (difference in child heights) of node passed as argument

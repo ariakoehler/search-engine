@@ -1,16 +1,16 @@
 TEMPLATE = app
 CONFIG += console c++11 \
     c++11
-CONFIG -= app_bundle
-CONFIG -= qt
-
 SOURCES += main.cpp \
     tests.cpp \
     porter2_stemmer.cpp \
     csvparser.c \
-    documentparser.cpp
+    documentparser.cpp \
     indexedterm.cpp \
-    indexhandler.cpp
+    indexhandler.cpp \
+    runquery.cpp \
+    input.cpp \
+    searchengine.cpp
 
 HEADERS += catch.hpp \
     porter2_stemmer.h \
@@ -20,9 +20,10 @@ HEADERS += catch.hpp \
     hashtable.hpp \
     indexinterface.hpp \
     csvparser.h \
-    documentparser.h
-
-DISTFILES += \
-    ../../fast-cpp-csv-parser-master.zip
+    documentparser.h \
     indexedterm.h \
-    indexhandler.h
+    indexhandler.h \
+    runquery.h \
+    input.h \
+    adaptor.hpp \
+    searchengine.h
